@@ -1,0 +1,5 @@
+From: baseline-benign
+To: baseline-malicious
+Triggered rules: ['D5_new_telemetry_keywords']
+Risk score: 1
+REVIEW

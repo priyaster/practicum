@@ -1,0 +1,35 @@
+import re
+from pathlib import Path
+
+RULES = {
+    "H1_sensitive_imports": r"\b(import|from)\b.*\b(os|sys|base64|pathlib|platform|json|subprocess|socket|requests)\b",
+    "H2_file_write": r"\b(open\(|write\(|mkdir\(|chmod\()\b",
+    "H3_encoding": r"\bbase64\.(b64encode|b64decode)\b",
+    "H4_env_trigger": r"\bos\.getenv\(",
+    "H5_hidden_paths": r"(\.cache|\.telemetry|/tmp|AppData|Library/Caches)",
+}
+
+def scan_repo():
+    triggered = set()
+    for py in Path(".").rglob("*.py"):
+        try:
+            text = py.read_text(errors="ignore")
+        except Exception:
+            continue
+        for name, rule in RULES.items():
+            if re.search(rule, text):
+                triggered.add(name)
+    return sorted(triggered)
+
+hits = scan_repo()
+score = len(hits)
+
+print("Triggered rules:", hits)
+print("Risk score:", score)
+
+if score >= 4:
+    print("BLOCK")
+elif score >= 2:
+    print("REVIEW")
+else:
+    print("PASS")

@@ -1,0 +1,3 @@
+Triggered rules: ['H1_sensitive_imports', 'H2_file_write', 'H3_encoding', 'H4_env_trigger', 'H5_hidden_paths']
+Risk score: 5
+BLOCK
