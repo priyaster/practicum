@@ -31,6 +31,7 @@ def append_record(record: Dict [str,Any]) -> None:
     with path.open("a", encoding="utf-8") as f:
         f.write(encoded + "\n")
 def collect_telemetry()-> None:
+    if not collection():
         return
     try:
         append_record(collect_context())
